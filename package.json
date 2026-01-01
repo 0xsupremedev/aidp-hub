@@ -3,6 +3,14 @@
     "private": true,
     "version": "1.0.0",
     "type": "module",
+    "workspaces": [
+        "aidp-marketplace",
+        "aidp-sdk",
+        "aidp-node",
+        "aidp-orchestrator",
+        "aidp-verification",
+        "aidp-protocol"
+    ],
     "description": "Multi-Model AI API Gateway powered by AIDP decentralized GPU compute",
     "scripts": {
         "dev": "npm --prefix aidp-marketplace run dev",
