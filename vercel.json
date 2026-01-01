@@ -1,0 +1,7 @@
+{
+    "name": "aidp-hub",
+    "framework": "vite",
+    "buildCommand": "npm --prefix aidp-marketplace run build",
+    "outputDirectory": "aidp-marketplace/dist",
+    "installCommand": "npm install"
+}

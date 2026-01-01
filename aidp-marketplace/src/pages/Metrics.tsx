@@ -79,7 +79,7 @@ export default function Metrics() {
                     <div className="flex flex-col gap-2">
                         {providers.map((provider) => (
                             <div key={provider.id} className="provider-row" style={{ border: '1px solid var(--color-border)' }}>
-                                <div style={{ width: 40, height: 40, background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyCenter: 'center' }}>
+                                <div style={{ width: 40, height: 40, background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <Activity size={20} className="text-tertiary" />
                                 </div>
                                 <div style={{ flex: 1 }}>
