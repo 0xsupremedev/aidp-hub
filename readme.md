@@ -80,7 +80,6 @@ MicroAPI Hub is a flagship participation portal for the **AIDP Ecosystem Campaig
 
 - **BUILD Track**: Integrate AIDP compute into your own AI applications.
 - **BRING Track**: Refer new GPU nodes to the network.
-- **Rewards**: **350 USDC** prize pools per track (2-week marathon).
 - **$AIDP Token**: `PLNk8NUTBeptajEX9GzZrxsYPJ1psnw62dPnWkGcyai` (SOL)
 
 ---
@@ -113,5 +112,6 @@ npm run dev
 - **Zero-Trust Monitoring**: Every inference response is non-custodial and verifiable.
 
 ---
+
 
 Built with ❤️ by **[0xsupremedev](https://github.com/0xsupremedev)** for the AIDP Hackathon.
