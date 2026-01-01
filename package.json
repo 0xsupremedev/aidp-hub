@@ -17,7 +17,9 @@
         "build": "npm --prefix aidp-marketplace run build",
         "lint": "npm --prefix aidp-marketplace run lint",
         "preview": "npm --prefix aidp-marketplace run preview",
-        "server": "npm --prefix aidp-marketplace run server"
+        "server": "npm --prefix aidp-marketplace run server",
+        "submit:job": "node scripts/submitJob.cjs",
+        "check:job": "node scripts/checkStatus.cjs"
     },
     "dependencies": {
         "react": "^18.3.1",
@@ -27,7 +29,9 @@
         "recharts": "^2.15.0",
         "lucide-react": "^0.468.0",
         "express": "^4.21.2",
-        "cors": "^2.8.5"
+        "cors": "^2.8.5",
+        "axios": "^1.7.9",
+        "yargs": "^17.7.2"
     },
     "devDependencies": {
         "@eslint/js": "^9.17.0",

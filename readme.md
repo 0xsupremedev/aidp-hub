@@ -84,24 +84,30 @@ MicroAPI Hub is a flagship participation portal for the **AIDP Ecosystem Campaig
 
 ---
 
-## 🏁 Quick Start
+## 🏁 CLI / Script Integration (for judges)
 
-### 📦 Installation
-```bash
-git clone https://github.com/0xsupremedev/aidp-hub.git
-cd aidp-hub
-npm install
-```
+We provide specialized CLI tools to interact with the AIDP Hub gateway, enabling real-time GPU job orchestration and cryptographic status monitoring from any terminal.
 
-### ⚡ Development
-Run the gateway and frontend in parallel:
+### 1. Start the Production Gateway
 ```bash
-# Terminal A: Production API
 npm run server
-
-# Terminal B: Developer Portal
-npm run dev
 ```
+
+### 2. Submit a Compute Job
+```bash
+# Deploys job to the AIDP network via the gateway
+npm run submit:job -- --model=mistral-7b --prompt="Explain the DePIN fly-wheel effect."
+```
+
+### 3. Verify Job Status & Proofs
+```bash
+# Polls the network for execution logs and cryptographic verification
+npm run check:job -- --jobId=<JOB_ID>
+```
+
+---
+
+## 🏎 Quick Start
 
 ---
 

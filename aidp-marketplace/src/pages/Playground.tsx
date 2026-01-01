@@ -152,9 +152,26 @@ export default function Playground() {
                                             disabled={loading || !prompt}
                                             icon={loading ? <div className="loader" style={{ width: 16, height: 16 }} /> : <Send size={16} />}
                                         >
-                                            {loading ? 'Routing to AIDP...' : 'Invoke Inference'}
+                                            {loading ? 'Routing Job...' : 'Invoke Inference'}
                                         </Button>
                                     </div>
+                                    {loading && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="flex items-center gap-3 text-xs text-primary bg-primary/10 p-3 rounded-lg border border-primary/20"
+                                        >
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-bold uppercase tracking-tighter">Status:</span>
+                                                    <span>Analyzing Network Capacity & Routing...</span>
+                                                </div>
+                                                <div className="text-muted opacity-80">
+                                                    Establishing secure cryptographic channel with primary orchestrator.
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
                                 </form>
                             </div>
 

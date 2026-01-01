@@ -33,18 +33,25 @@ class AIDPClient {
 
         try {
             // Step 1: Submit job to backend
-            const submitRes = await fetch(`${API_BASE}/inference`, {
+            const submitRes = await fetch(`${API_BASE}/submit`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(request)
+                body: JSON.stringify({
+                    jobType: 'inference',
+                    payload: {
+                        model: request.modelId,
+                        prompt: request.prompt,
+                        parameters: request.parameters
+                    }
+                })
             });
 
             if (!submitRes.ok) {
-                throw new Error(`Submission failed: ${submitRes.statusText}`);
+                const err = await submitRes.json();
+                throw new Error(err.error || `Submission failed: ${submitRes.statusText}`);
             }
 
-            const submitData = await submitRes.json();
-            const jobId = submitData.jobId;
+            const { jobId } = await submitRes.json();
 
             // Step 2: Poll for completion
             const completedJob = await this.pollJobStatus(jobId);
@@ -53,7 +60,7 @@ class AIDPClient {
                 jobId,
                 output: completedJob.result || 'No output received',
                 latency: Date.now() - startTime,
-                cost: Math.random() * 0.5,
+                cost: 0.0001 + (Math.random() * 0.0005), // Simulated micro-payment
                 provider: completedJob.routedTo || 'unknown',
                 proof: completedJob.proof || { por: 'n/a', pod: 'n/a', timestamp: Date.now() }
             };
@@ -66,16 +73,17 @@ class AIDPClient {
     /**
      * Poll the backend for job completion.
      */
-    private async pollJobStatus(jobId: string, maxAttempts = 10): Promise<any> {
+    private async pollJobStatus(jobId: string, maxAttempts = 20): Promise<any> {
         for (let i = 0; i < maxAttempts; i++) {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            const res = await fetch(`${API_BASE}/jobs/${jobId}`);
+            await new Promise(resolve => setTimeout(resolve, 800)); // Polling interval
+            const res = await fetch(`${API_BASE}/status/${jobId}`);
             if (res.ok) {
-                const job = await res.json();
+                const { job } = await res.json();
                 if (job.status === 'completed') return job;
+                if (job.status === 'failed') throw new Error(job.error || 'Job execution failed');
             }
         }
-        throw new Error('Job polling timeout');
+        throw new Error('Job polling timeout: The AIDP network is experiencing high load.');
     }
 
     /**

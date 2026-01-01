@@ -1,0 +1,32 @@
+{
+    "jobId": "job_064c8a45",
+    "type": "inference",
+    "model": "mistral-7b",
+    "status": "completed",
+    "createdAt": "2026-01-01T20:50:18.378Z",
+    "routedTo": "node_alpha",
+    "payload": {
+        "model": "mistral-7b",
+        "prompt": "Explain the DePIN fly-wheel effect."
+    },
+    "result": "Processed by AIDP Node node_primary: \"The DePIN fly-wheel effect describes a self-reinforcing cycle where token incentives attract hardware providers, which improves network quality, attracting more users, which increases token value...\"",
+    "proof": {
+        "por": "por_rgqyc",
+        "pod": "pod_jrkrqc",
+        "timestamp": 1767300620385
+    },
+    "verified": {
+        "por": true,
+        "pou": true
+    },
+    "execution_logs": [
+        "[02:14:18] Orchestrator: Received request for mistral-7b",
+        "[02:14:18] Orchestrator: Discovered 2 available nodes in US-East",
+        "[02:14:19] Orchestrator: Selected node_alpha (Latency: 45ms, Cost: 0.004)",
+        "[02:14:19] Node: node_alpha received job instruction",
+        "[02:14:20] Node: Executing INT8 inference on H100 GPU",
+        "[02:14:21] Node: Job completed. Generated PoR: por_rgqyc",
+        "[02:14:21] Gateway: Verifying cryptographic proofs...",
+        "[02:14:21] Gateway: Proofs verified. Job marked COMPLETED."
+    ]
+}

@@ -74,25 +74,21 @@ app.get('/api/status', (req, res) => {
     });
 });
 
-app.post('/api/inference', async (req, res) => {
-    const { modelId, prompt, stream = false } = req.body;
-
-    if (!modelId || !prompt) {
-        return res.status(400).json({ error: 'Missing modelId or prompt' });
-    }
-
+const submitJob = async (jobType: string, payload: any) => {
     const jobId = `job_${uuidv4().split('-')[0]}`;
 
     // Step 1: Use Orchestrator to route job (Whitepaper Section 8)
-    const routingResult = await orchestrator.routeJob({ id: jobId, modelId, prompt });
+    const routingResult = await orchestrator.routeJob({ id: jobId, type: jobType, payload });
     console.log(`[Backend] Orchestrator selected node: ${routingResult.selectedNode}`);
 
     const job: any = {
         id: jobId,
-        model: modelId,
+        type: jobType,
+        model: payload.model || 'default',
         status: 'processing',
         createdAt: new Date(),
         routedTo: routingResult.selectedNode,
+        payload: payload,
         result: null
     };
 
@@ -100,12 +96,11 @@ app.post('/api/inference', async (req, res) => {
 
     // Step 2: Simulate compute with ComputeNode
     setTimeout(async () => {
-        const computeResult = await computeNode.processJob(jobId, { prompt });
-
+        const computeResult = await computeNode.processJob(jobId, payload);
         const updatedJob = jobs.get(jobId);
         if (updatedJob) {
             updatedJob.status = 'completed';
-            updatedJob.result = `Processed by ${routingResult.selectedNode}: "${prompt.substring(0, 50)}..."`;
+            updatedJob.result = computeResult.result;
             updatedJob.proof = {
                 por: computeResult.por,
                 pod: computeResult.pod,
@@ -114,29 +109,50 @@ app.post('/api/inference', async (req, res) => {
 
             // Step 3: Verify Proofs (Whitepaper Section 9)
             updatedJob.verified = {
-                por: ProofVerifier.verifyPoR(prompt, modelId, updatedJob.result, updatedJob.proof.timestamp, updatedJob.proof.por),
+                por: ProofVerifier.verifyPoR(JSON.stringify(payload), updatedJob.model, updatedJob.result, updatedJob.proof.timestamp, updatedJob.proof.por),
                 pou: ProofVerifier.verifyPoU(routingResult.selectedNode, 'heartbeat_sig')
             };
 
             jobs.set(jobId, updatedJob);
             console.log(`[Backend] Job ${jobId} completed with proof verification.`);
         }
-    }, 1500);
+    }, 2000);
 
-    res.status(202).json({
+    return {
         jobId,
         message: 'Job submitted to AIDP decentralized network',
         status: 'processing',
         routedTo: routingResult.selectedNode
-    });
+    };
+};
+
+app.post('/api/submit', async (req, res) => {
+    try {
+        const { jobType = 'inference', payload = {} } = req.body;
+        const result = await submitJob(jobType, payload);
+        return res.status(202).json({ ok: true, ...result });
+    } catch (err: any) {
+        console.error(err.message);
+        return res.status(500).json({ ok: false, error: err.message });
+    }
 });
 
-app.get('/api/jobs/:id', (req, res) => {
+app.post('/api/inference', async (req, res) => {
+    try {
+        const { modelId, prompt } = req.body;
+        const result = await submitJob('inference', { model: modelId, prompt });
+        return res.status(202).json(result);
+    } catch (err: any) {
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/status/:id', (req, res) => {
     const job = jobs.get(req.params.id);
     if (!job) {
-        return res.status(404).json({ error: 'Job not found' });
+        return res.status(404).json({ ok: false, error: 'Job not found' });
     }
-    res.json(job);
+    res.json({ ok: true, job });
 });
 
 app.listen(PORT, () => {
