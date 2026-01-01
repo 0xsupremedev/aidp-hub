@@ -202,7 +202,7 @@ export default function Dashboard() {
 
                 {/* 5. Right Column: Network Health (Visual Refactor) */}
                 <div className="flex flex-col gap-6">
-                    <div className="card overflow-hidden">
+                    <div className="card">
                         <div className="card-header py-4 bg-glass border-b border-border">
                             <div className="flex items-center justify-between w-full">
                                 <h3 className="text-sm font-bold uppercase tracking-widest text-secondary">Network Vitals</h3>
@@ -212,15 +212,34 @@ export default function Dashboard() {
                             </div>
                         </div>
                         <div className="card-body flex flex-col items-center py-10 gap-8">
-                            {/* Larger Donut Gauge */}
+                            {/* Larger Donut Gauge - Fixed Clipping */}
                             <div className="relative w-44 h-44 flex items-center justify-center">
-                                <svg className="w-full h-full -rotate-90">
-                                    <circle cx="88" cy="88" r="76" fill="none" stroke="var(--color-border)" strokeWidth="12" strokeOpacity="0.3" />
+                                <svg
+                                    width="176"
+                                    height="176"
+                                    viewBox="0 0 176 176"
+                                    className="-rotate-90"
+                                    style={{ overflow: 'visible' }}
+                                >
+                                    <circle
+                                        cx="88"
+                                        cy="88"
+                                        r="72"
+                                        fill="none"
+                                        stroke="var(--color-border)"
+                                        strokeWidth="12"
+                                        strokeOpacity="0.3"
+                                    />
                                     <motion.circle
-                                        cx="88" cy="88" r="76" fill="none" stroke="var(--color-primary)"
-                                        strokeWidth="12" strokeDasharray="478"
-                                        initial={{ strokeDashoffset: 478 }}
-                                        animate={{ strokeDashoffset: 478 * (1 - 0.68) }}
+                                        cx="88"
+                                        cy="88"
+                                        r="72"
+                                        fill="none"
+                                        stroke="var(--color-primary)"
+                                        strokeWidth="12"
+                                        strokeDasharray="452" // 2 * PI * 72
+                                        initial={{ strokeDashoffset: 452 }}
+                                        animate={{ strokeDashoffset: 452 * (1 - 0.68) }}
                                         transition={{ duration: 2, ease: "easeOut" }}
                                     />
                                 </svg>
