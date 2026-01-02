@@ -5,8 +5,11 @@ import {
     ShieldCheck,
     Lock,
     Zap,
-    TrendingUp
+    TrendingUp,
+    Calendar,
+    Infinity
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '../components/ui/Button';
 
 export default function Staking() {
@@ -107,6 +110,46 @@ export default function Staking() {
                         <div className="flex items-center gap-2 text-xs text-tertiary">
                             <TrendingUp size={14} className="text-accent-green" />
                             <span>Slashing probability: &lt; 0.01%</span>
+                        </div>
+                    </div>
+
+                    <div className="glass-card-static" style={{ padding: 'var(--space-6)', position: 'relative', overflow: 'hidden' }}>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[60px] pointer-events-none"></div>
+                        <div className="flex justify-between items-start mb-6">
+                            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-tertiary">Halving Countdown</h3>
+                            <div className="text-[10px] font-mono text-primary group-hover:underline cursor-pointer">Section 11.4</div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="flex justify-between items-end">
+                                <div>
+                                    <div className="text-2xl font-black tracking-tight">E_(n+1) = E_n / 2</div>
+                                    <div className="text-[10px] text-muted font-bold uppercase mt-1">24-Month Emission Cycle</div>
+                                </div>
+                                <Calendar size={32} className="text-primary opacity-20" />
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-[11px] font-bold">
+                                    <span className="text-secondary">Epoch Progress (49/100)</span>
+                                    <span className="text-primary">422 Days Left</span>
+                                </div>
+                                <div className="h-1.5 w-full bg-elevated rounded-full overflow-hidden">
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: '49%' }}
+                                        transition={{ duration: 1.5, ease: "easeOut" }}
+                                        className="h-full bg-primary"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 mt-2">
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="text-tertiary">Current Reward (Epoch 49)</span>
+                                    <span className="font-bold text-secondary">2,482 AIDP / Day</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

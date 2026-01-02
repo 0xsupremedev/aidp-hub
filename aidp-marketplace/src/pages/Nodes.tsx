@@ -8,8 +8,12 @@ import {
     Star,
     Clock,
     ShieldCheck,
-    ChevronRight
+    ChevronRight,
+    TrendingUp,
+    BarChart3,
+    Target
 } from 'lucide-react';
+import { RoutingSimulator } from '../components/RoutingSimulator';
 
 const nodes = [
     { id: 'node_1', name: 'Lambda Labs #04', gpu: '8x RTX 4090', location: 'Ashburn, US', latency: 45, uptime: 99.5, reputation: 4.9, jobs: 12420, status: 'online' },
@@ -44,32 +48,39 @@ export default function Nodes() {
                 </div>
             </div>
 
-            {/* Stats Banner */}
-            <div className="grid grid-cols-4 gap-4">
-                {[
-                    { label: 'Total Nodes', value: '1,247', icon: Server, color: 'var(--color-primary)' },
-                    { label: 'Total VRAM', value: '48.2 TB', icon: Cpu, color: 'var(--color-secondary)' },
-                    { label: 'Avg Latency', value: '58ms', icon: Activity, color: 'var(--color-accent)' },
-                    { label: 'Verified', value: '847', icon: ShieldCheck, color: 'var(--color-accent-green)' },
-                ].map((stat) => (
-                    <div key={stat.label} className="glass-card-static flex items-center gap-4" style={{ padding: 'var(--space-4)' }}>
-                        <div style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 'var(--radius-lg)',
-                            background: `color-mix(in srgb, ${stat.color} 15%, transparent)`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <stat.icon size={20} style={{ color: stat.color }} />
-                        </div>
-                        <div>
-                            <div className="text-xl font-bold">{stat.value}</div>
-                            <div className="text-xs text-muted">{stat.label}</div>
-                        </div>
+            {/* Stats Banner & Simulator */}
+            <div className="grid grid-cols-12 gap-6">
+                <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
+                    <div className="grid grid-cols-4 gap-4">
+                        {[
+                            { label: 'Total Nodes', value: '1,247', icon: Server, color: 'var(--color-primary)' },
+                            { label: 'Total VRAM', value: '48.2 TB', icon: Cpu, color: 'var(--color-secondary)' },
+                            { label: 'Avg Latency', value: '58ms', icon: Activity, color: 'var(--color-accent)' },
+                            { label: 'Verified', value: '847', icon: ShieldCheck, color: 'var(--color-accent-green)' },
+                        ].map((stat) => (
+                            <div key={stat.label} className="glass-card-static flex items-center gap-4" style={{ padding: 'var(--space-4)' }}>
+                                <div style={{
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 'var(--radius-lg)',
+                                    background: `color-mix(in srgb, ${stat.color} 15%, transparent)`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <stat.icon size={20} style={{ color: stat.color }} />
+                                </div>
+                                <div>
+                                    <div className="text-xl font-bold">{stat.value}</div>
+                                    <div className="text-xs text-muted">{stat.label}</div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
+                <div className="col-span-12 lg:col-span-4 h-full">
+                    <RoutingSimulator />
+                </div>
             </div>
 
             {/* Node Grid */}
@@ -115,6 +126,32 @@ export default function Nodes() {
                             <div>
                                 <div className="text-muted">Jobs</div>
                                 <div className="font-medium">{node.jobs.toLocaleString()}</div>
+                            </div>
+                        </div>
+
+                        {/* Reliability Analytics - New Section */}
+                        <div className="mt-4 pt-4 border-t border-border flex flex-col gap-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-tertiary flex items-center gap-1">
+                                    <BarChart3 size={10} /> Reliability Score
+                                </span>
+                                <span className="text-xs font-bold text-accent-green">{(node.reputation * 20).toFixed(0)}%</span>
+                            </div>
+                            <div className="flex gap-1 h-8 items-end">
+                                {[...Array(24)].map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className="flex-1 rounded-t-sm bg-accent-green/20 hover:bg-accent-green/40 transition-colors"
+                                        style={{ height: `${Math.random() * 60 + 40}%` }}
+                                        title={`Uptime (h-${24 - i}): 100%`}
+                                    />
+                                ))}
+                            </div>
+                            <div className="flex justify-between text-[9px] text-muted italic">
+                                <span>24h Latency Stability</span>
+                                <span className="flex items-center gap-0.5 text-accent-green">
+                                    <TrendingUp size={8} /> Optimal
+                                </span>
                             </div>
                         </div>
 

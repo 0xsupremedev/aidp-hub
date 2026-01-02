@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useAIDP } from '@aidp-sdk/hooks/useAIDP';
 import { ComputeProvider } from '@aidp-sdk/types/aidp';
+import { TreasuryFlywheel } from '../components/TreasuryFlywheel';
 
 export default function Metrics() {
     const { getProviders } = useAIDP();
@@ -102,8 +103,10 @@ export default function Metrics() {
                     </div>
                 </div>
 
-                {/* Global Latency Heatmap Placeholder */}
+                {/* Global Latency Heatmap Placeholder & Treasury Flywheel */}
                 <div className="col-span-4 flex flex-col gap-6">
+                    <TreasuryFlywheel />
+
                     <div className="glass-card-static" style={{ padding: 'var(--space-6)' }}>
                         <h3 className="text-md font-bold" style={{ marginBottom: 'var(--space-4)' }}>Provider Uptime (90d)</h3>
                         <div className="uptime-grid">
@@ -120,56 +123,56 @@ export default function Metrics() {
                             <span>Today</span>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    {/* Network Alerts & Protocol Stats */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2">
-                            <div className="section-header">
-                                <h2 className="text-xl font-bold">Network Alerts</h2>
+            {/* Network Alerts & Protocol Stats */}
+            <div className="grid grid-cols-12 gap-8">
+                <div className="col-span-8">
+                    <div className="section-header">
+                        <h2 className="text-xl font-bold">Network Alerts</h2>
+                    </div>
+                    <div className="card p-6">
+                        <div className="space-y-4">
+                            <div className="flex items-start gap-4 p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                                <AlertTriangle className="text-red-500 shrink-0" size={20} />
+                                <div>
+                                    <div className="font-medium text-red-500">Provider Slashing Event</div>
+                                    <div className="text-sm text-secondary">Node 0x7f...3a slashed 15% stake due to failed Proof-of-Resource (Section 15.2).</div>
+                                </div>
                             </div>
-                            <div className="card">
-                                <div className="space-y-4">
-                                    <div className="flex items-start gap-4 p-4 rounded-lg bg-red-500/10 border border-red-500/20">
-                                        <AlertTriangle className="text-red-500 shrink-0" size={20} />
-                                        <div>
-                                            <div className="font-medium text-red-500">Provider Slashing Event</div>
-                                            <div className="text-sm text-secondary">Node 0x7f...3a slashed 15% stake due to failed Proof-of-Resource (Section 15.2).</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/10 border border-primary/20">
-                                        <Activity className="text-primary shrink-0" size={20} />
-                                        <div>
-                                            <div className="font-medium text-primary">Decentralized Orchestration Upgrade</div>
-                                            <div className="text-sm text-secondary">Phase 2 routing enabled. Orchestrators now computing optimal p* utility.</div>
-                                        </div>
-                                    </div>
+                            <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/10 border border-primary/20">
+                                <Activity className="text-primary shrink-0" size={20} />
+                                <div>
+                                    <div className="font-medium text-primary">Decentralized Orchestration Upgrade</div>
+                                    <div className="text-sm text-secondary">Phase 2 routing enabled. Orchestrators now computing optimal p* utility.</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div>
-                            <div className="section-header">
-                                <h2 className="text-xl font-bold">DAT Treasury (Section 13)</h2>
+                <div className="col-span-4">
+                    <div className="section-header">
+                        <h2 className="text-xl font-bold">DAT Treasury (Section 13)</h2>
+                    </div>
+                    <div className="card p-6">
+                        <div className="space-y-4">
+                            <div className="p-4 rounded-lg bg-elevated/50">
+                                <div className="text-sm text-secondary mb-1">Buyback (40% Revenue)</div>
+                                <div className="text-lg font-bold text-primary">42.5K AIDP</div>
                             </div>
-                            <div className="card">
-                                <div className="space-y-4">
-                                    <div className="p-4 rounded-lg bg-surface-lighter">
-                                        <div className="text-sm text-secondary mb-1">Buyback (40% Revenue)</div>
-                                        <div className="text-lg font-bold text-primary">42.5K AIDP</div>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-surface-lighter">
-                                        <div className="text-sm text-secondary mb-1">Burn (20% Fees)</div>
-                                        <div className="text-lg font-bold text-red-400">12.1K AIDP</div>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-surface-lighter">
-                                        <div className="text-sm text-secondary mb-1">Resource Weights</div>
-                                        <div className="grid grid-cols-2 gap-2 mt-2">
-                                            <div className="text-xs p-1 bg-surface-dark rounded text-center">Compute: 2.2x</div>
-                                            <div className="text-xs p-1 bg-surface-dark rounded text-center">Bandwidth: 1.5x</div>
-                                            <div className="text-xs p-1 bg-surface-dark rounded text-center">Storage: 1.0x</div>
-                                            <div className="text-xs p-1 bg-surface-dark rounded text-center">Sensor: 0.8x</div>
-                                        </div>
-                                    </div>
+                            <div className="p-4 rounded-lg bg-elevated/50">
+                                <div className="text-sm text-secondary mb-1">Burn (20% Fees)</div>
+                                <div className="text-lg font-bold text-error">12.1K AIDP</div>
+                            </div>
+                            <div className="p-4 rounded-lg bg-elevated/50">
+                                <div className="text-[10px] text-tertiary font-bold uppercase mb-2">Resource Weights</div>
+                                <div className="grid grid-cols-2 gap-2 mt-2">
+                                    <div className="text-[10px] p-1 bg-bg-primary rounded text-center opacity-80">Compute: 2.2x</div>
+                                    <div className="text-[10px] p-1 bg-bg-primary rounded text-center opacity-80">Bandwidth: 1.5x</div>
+                                    <div className="text-[10px] p-1 bg-bg-primary rounded text-center opacity-80">Storage: 1.0x</div>
+                                    <div className="text-[10px] p-1 bg-bg-primary rounded text-center opacity-80">Sensor: 0.8x</div>
                                 </div>
                             </div>
                         </div>

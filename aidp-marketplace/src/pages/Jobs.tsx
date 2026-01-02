@@ -6,8 +6,12 @@ import {
     Cpu,
     ExternalLink,
     Search,
-    AlertCircle
+    AlertCircle,
+    Eye
 } from 'lucide-react';
+import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { ProofExplorer } from '../components/ProofExplorer';
 
 const jobs = [
     { id: 'job_492', model: 'Mistral-7B-v0.2', provider: 'CoreWeave #12', type: 'Inference', status: 'completed', time: '2.4s', cost: '0.042 AIDP', timestamp: '2 mins ago' },
@@ -18,6 +22,8 @@ const jobs = [
 ];
 
 export default function Jobs() {
+    const [selectedJob, setSelectedJob] = useState<any>(null);
+
     return (
         <div className="flex flex-col gap-8">
             <div className="flex justify-between items-end">
@@ -73,11 +79,30 @@ export default function Jobs() {
                                         <span className="text-xs text-muted">Pending...</span>
                                     )}
                                 </td>
+                                <td className="td-cell">
+                                    {job.status === 'completed' && (
+                                        <button
+                                            onClick={() => setSelectedJob(job)}
+                                            className="btn btn-ghost btn-sm gap-1 text-xs"
+                                        >
+                                            <Eye size={14} /> Inspect
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
+            <AnimatePresence>
+                {selectedJob && (
+                    <ProofExplorer
+                        job={selectedJob}
+                        onClose={() => setSelectedJob(null)}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 }

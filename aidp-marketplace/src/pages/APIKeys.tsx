@@ -10,11 +10,13 @@ import {
     Clock,
     Zap,
     ChevronRight,
-    ExternalLink
+    ExternalLink,
+    Terminal
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { CreateKeyModal } from '../components/ui/CreateKeyModal';
 import { AnimatePresence } from 'framer-motion';
+import { CodeGenerator } from '../components/CodeGenerator';
 
 const mockKeys = [
     { id: 1, name: 'Production Main', status: 'active', health: 'healthy', requests: '2.4M', updated: '2h ago', preview: 'sk_live_...4k82' },
@@ -128,35 +130,45 @@ export default function APIKeys() {
                 </table>
             </div>
 
-            {/* Bottom Insight Card */}
+            {/* Bottom Insight Card & Quick Start */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="card p-6 border-dashed border-primary/20 bg-primary/5 flex items-start gap-5">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                        <Key size={24} />
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-base mb-1">Security Standards</h4>
-                        <p className="text-xs text-secondary leading-relaxed mb-4">
-                            All keys are hashed using SHA-256 before storage. We recommend rotating production keys every 90 days to maintain high security compliance.
-                        </p>
-                        <div className="flex gap-3">
-                            <Button variant="secondary" size="sm" className="text-[10px] h-8">Rotate Policy</Button>
-                            <Button variant="secondary" size="sm" className="text-[10px] h-8" icon={<ExternalLink size={12} />}>Audit Logs</Button>
+                <div className="flex flex-col gap-6">
+                    <div className="card p-6 border-dashed border-primary/20 bg-primary/5 flex items-start gap-5">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                            <Key size={24} />
                         </div>
+                        <div>
+                            <h4 className="font-bold text-base mb-1">Security Standards</h4>
+                            <p className="text-xs text-secondary leading-relaxed mb-4">
+                                All keys are hashed using SHA-256 before storage. We recommend rotating production keys every 90 days to maintain high security compliance.
+                            </p>
+                            <div className="flex gap-3">
+                                <Button variant="secondary" size="sm" className="text-[10px] h-8">Rotate Policy</Button>
+                                <Button variant="secondary" size="sm" className="text-[10px] h-8" icon={<ExternalLink size={12} />}>Audit Logs</Button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card p-6 bg-elevated/30 flex items-center justify-between group cursor-pointer hover:border-primary/30 transition-all">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center text-tertiary group-hover:text-primary transition-colors">
+                                <Clock size={24} />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-sm">Automated Key Rotation</h4>
+                                <p className="text-[11px] text-tertiary">Setup logic-based rotation schedules for enterprise security.</p>
+                            </div>
+                        </div>
+                        <ChevronRight size={20} className="text-tertiary group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
                 </div>
 
-                <div className="card p-6 bg-elevated/30 flex items-center justify-between group cursor-pointer hover:border-primary/30 transition-all">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center text-tertiary group-hover:text-primary transition-colors">
-                            <Clock size={24} />
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-sm">Automated Key Rotation</h4>
-                            <p className="text-[11px] text-tertiary">Setup logic-based rotation schedules for enterprise security.</p>
-                        </div>
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center gap-2 text-primary">
+                        <Terminal size={18} />
+                        <h4 className="font-bold text-sm uppercase tracking-widest">SDK Quick Start</h4>
                     </div>
-                    <ChevronRight size={20} className="text-tertiary group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    <CodeGenerator apiKey="sk_live_281...4k82" />
                 </div>
             </div>
 

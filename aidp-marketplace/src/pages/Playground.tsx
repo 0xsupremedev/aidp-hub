@@ -17,6 +17,8 @@ import {
 import { Button } from '../components/ui/Button';
 import { useAIDP } from '@aidp-sdk/hooks/useAIDP';
 import { AIModel, InferenceResponse } from '@aidp-sdk/types/aidp';
+import { calculateROI } from '../lib/pricingUtils';
+import { TrendingDown, Globe } from 'lucide-react';
 
 export default function Playground() {
     const { loading, runInference, getModels } = useAIDP();
@@ -271,6 +273,43 @@ export default function Playground() {
                                                     <div className="flex items-center gap-2 text-xs text-muted" style={{ marginTop: 'var(--space-3)', paddingTop: 'var(--space-2)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                                                         <ChevronDown size={12} />
                                                         <span>PoR = SHA256(Input ⊕ Model ⊕ Output) • PoD = SHA256(PoR ⊕ NodeId ⊕ Timestamp)</span>
+                                                    </div>
+                                                </motion.div>
+
+                                                {/* ROI Calculator Card */}
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="glass-card-static"
+                                                    style={{
+                                                        padding: 'var(--space-4)',
+                                                        background: 'rgba(16, 185, 129, 0.04)',
+                                                        borderColor: 'rgba(16, 185, 129, 0.2)',
+                                                        marginTop: 'var(--space-2)'
+                                                    }}
+                                                >
+                                                    <div className="flex justify-between items-center" style={{ marginBottom: 'var(--space-2)' }}>
+                                                        <div className="flex items-center gap-2">
+                                                            <TrendingDown size={14} className="text-accent-green" />
+                                                            <span className="text-xs font-bold uppercase tracking-wider text-secondary">Efficiency Analysis</span>
+                                                        </div>
+                                                        <div className="text-xs font-bold text-accent-green">
+                                                            {calculateROI(
+                                                                selectedModel?.type === 'image' ? 'image' : 'llm',
+                                                                responses[0].cost,
+                                                                selectedModel?.type === 'image' ? 1 : 1000 // Mock quantity for comparison
+                                                            ).savingsPercentage.toFixed(1)}% cheaper
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-col gap-1">
+                                                        <div className="flex justify-between text-xs">
+                                                            <span className="text-tertiary">Cloud Equivalent ({calculateROI(selectedModel?.type === 'image' ? 'image' : 'llm', responses[0].cost, 1).cloudProvider})</span>
+                                                            <span className="text-secondary line-through">${calculateROI(selectedModel?.type === 'image' ? 'image' : 'llm', responses[0].cost, selectedModel?.type === 'image' ? 1 : 1000).cloudCost.toFixed(4)}</span>
+                                                        </div>
+                                                        <div className="flex justify-between text-xs">
+                                                            <span className="text-tertiary">AIDP Network (Decentralized)</span>
+                                                            <span className="text-primary font-bold">${responses[0].cost.toFixed(4)}</span>
+                                                        </div>
                                                     </div>
                                                 </motion.div>
                                             </div>

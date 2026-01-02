@@ -18,6 +18,7 @@ import SubmitProject from './pages/SubmitProject';
 import AccountSettings from './pages/settings/AccountSettings';
 import SecuritySettings from './pages/settings/SecuritySettings';
 import BillingSettings from './pages/settings/BillingSettings';
+import Workflows from './pages/Workflows';
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route element={<Layout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/workflows" element={<Workflows />} />
                 <Route path="/products" element={<Marketplace />} />
                 <Route path="/api-keys" element={<APIKeys />} />
                 <Route path="/analytics" element={<Metrics />} />

@@ -27,6 +27,7 @@ import { useTheme } from '../../context/ThemeContext'
 
 const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/workflows', label: 'Workflows', icon: Zap },
     { path: '/products', label: 'Products', icon: Box },
     { path: '/api-keys', label: 'API Keys', icon: Key },
     { path: '/analytics', label: 'Analytics', icon: BarChart3 },
